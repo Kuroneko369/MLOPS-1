@@ -1,0 +1,10 @@
+name: MLOps-dev
+channels:
+  - defaults
+dependencies:
+  - python=3.10.12
+  - ipykernel
+  - scikit-learn
+  - pandas
+  - jupyterlab
+prefix: /Users/thomasloesekann/anaconda3/envs/MLOps-dev
