@@ -42,8 +42,6 @@
 
 # ### Packages
 
-# In[1]:
-
 
 import numpy as np
 import pandas as pd
@@ -54,19 +52,23 @@ from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 from sklearn.pipeline import Pipeline
 
+import os
+import dotenv
+
+project_dir = os.path.join(os.path.dirname(__file__), os.pardir)
+dotenv_path = os.path.join(project_dir, '.env')
+dotenv.load_dotenv(dotenv_path)
 
 # ### User Dependent Variables
 
-# In[2]:
 
 
-data_path = "./data/raw/california_housing_0.csv"
+data_path = os.getenv("DATA_PATH")
 
 
 # <a id='P1'></a>
 # ## [Data Preparation](#P0)
 
-# In[3]:
 
 
 data = pd.read_csv(data_path)
@@ -74,19 +76,15 @@ data = pd.read_csv(data_path)
 
 # ### Data Exploration
 
-# In[4]:
 
 
 data.head()
 
 
-# In[5]:
-
 
 data.shape
 
 
-# In[6]:
 
 
 data.isna().sum()
@@ -94,27 +92,22 @@ data.isna().sum()
 
 # ### Data Cleaning
 
-# In[7]:
-
 
 data = data.drop(columns="total_bedrooms")
 
 
 # ### Train-Test Split
 
-# In[8]:
 
 
 data_train, data_test = train_test_split(data, test_size=0.33, random_state=0)
 
 
-# In[9]:
 
 
 data_train.shape, data_test.shape
 
 
-# In[10]:
 
 
 # # Select X and y values (predictor and outcome)
@@ -122,7 +115,6 @@ X_train = data_train.drop(columns="median_house_value")
 y_train = data_train["median_house_value"]
 
 
-# In[11]:
 
 
 X_test = data_test.drop(columns="median_house_value")
@@ -140,7 +132,6 @@ X_train.shape, X_test.shape
 
 # ### Pipeline Definition
 
-# In[13]:
 
 
 sc = StandardScaler()
@@ -150,7 +141,6 @@ pipeline_mlr = Pipeline([("data_scaling", sc), ("estimator", lin_reg)])
 
 # ### Model Fit
 
-# In[14]:
 
 
 pipeline_mlr.fit(X_train, y_train)
@@ -159,20 +149,17 @@ pipeline_mlr.fit(X_train, y_train)
 # <a id='P3' name="P3"></a>
 # ## [Model Evaluation](#P0)
 
-# In[15]:
 
 
 predictions_mlr = pipeline_mlr.predict(X_test)
 
 
-# In[16]:
 
 
 # Test score
 pipeline_mlr.score(X_test, y_test)
 
 
-# In[17]:
 
 
 print("MAE", metrics.mean_absolute_error(y_test, predictions_mlr))
