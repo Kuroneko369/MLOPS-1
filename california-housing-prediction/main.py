@@ -60,7 +60,7 @@ from sklearn.pipeline import Pipeline
 # In[2]:
 
 
-data_path = "../data/raw/california_housing_0.csv"
+data_path = "./data/raw/california_housing_0.csv"
 
 
 # <a id='P1'></a>
